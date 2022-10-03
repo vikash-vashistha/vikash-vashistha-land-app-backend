@@ -19,9 +19,17 @@ router.post("", authenticate, async (req, res) => {
 
 router.get("", async (req, res) => {
   try {
-    const products = await Product.find().lean().exec();
-
-    return res.send(products);
+    let Products;
+    console.log(req.query.location)
+    if (req.query.location) {
+      Products = await Product.find({ location: { $eq: "kota" } })
+        .lean()
+        .exec();
+      console.log(Products, req.query.location);
+    } else {
+      Products = await Product.find().lean().exec();
+    }
+    return res.send(Products);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
