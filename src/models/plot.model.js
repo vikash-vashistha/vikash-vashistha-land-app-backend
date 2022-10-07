@@ -1,12 +1,12 @@
-const mongoose = require("mongoose");
+const mongoose = require('mongoose');
 
-const productSchema = new mongoose.Schema(
+const plotSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     price: { type: Number, required: true },
-    user_id: {
+    land: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
+      ref: 'land',
       required: true,
     },
   },
@@ -16,4 +16,4 @@ const productSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model("product", productSchema);
+module.exports = mongoose.model('plot', plotSchema);
