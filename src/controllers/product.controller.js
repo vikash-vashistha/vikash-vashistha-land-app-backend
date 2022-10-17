@@ -2,6 +2,8 @@ const express = require("express");
 
 const Product = require("../models/product.model");
 
+const Location = require("../models/location.model")
+
 const authenticate = require("../middlewares/authenticate");
 
 const router = express.Router();
@@ -32,6 +34,25 @@ router.get("", async (req, res) => {
     return res.send(Products);
   } catch (err) {
     return res.status(500).send({ message: err.message });
+  }
+});
+
+router.get("/locations/", async (req, res) => {
+  try {
+    let Cities;
+    let {city} = req.query;
+    console.log(city);
+    if (city) {
+      Cities = await Location.find({ city: new RegExp(city, "i") })
+        .lean()
+        .exec();
+      console.log(Cities, req.query.city);
+    } else {
+      Cities = await Location.find().lean().exec();
+    }
+    return res.status(200).send(Cities);
+  } catch (err) {
+    return res.status(404).send({ message: err.message });
   }
 });
 
