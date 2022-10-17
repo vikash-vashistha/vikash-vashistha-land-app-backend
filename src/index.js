@@ -2,9 +2,9 @@ const express = require('express');
 var cors = require('cors');
 
 const connect = require('./configs/db');
-const passport = require('./configs/google.oatuh');
+// const passport = require('./configs/google.oatuh');
 const userController = require('./controllers/user.controller');
-const productController = require('./controllers/land.controller');
+const productController = require('./controllers/product.controller');
 const { register, login } = require('./controllers/auth.controller');
 const transactionRouter = require('./controllers/transaction.controller');
 
@@ -20,34 +20,34 @@ app.post('/register', register);
 app.post('/login', login);
 
 app.use('/users', userController);
-app.use('/land', productController);
+app.use('/products', productController);
 
 //transaction
 app.use('/transaction', transactionRouter);
 
-app.get(
-  '/auth/google',
-  passport.authenticate('google', { scope: ['profile', 'email'] })
-);
+// app.get(
+//   '/auth/google',
+//   passport.authenticate('google', { scope: ['profile', 'email'] })
+// );
 
-app.get(
-  '/auth/google/callback',
-  passport.authenticate('google', {
-    failureRedirect: '/login',
-    session: false,
-  }),
-  function (req, res) {
-    // Successful authentication, redirect home.
-    console.log(req.user);
-    res.redirect('/');
-  }
-);
+// app.get(
+//   '/auth/google/callback',
+//   passport.authenticate('google', {
+//     failureRedirect: '/login',
+//     session: false,
+//   }),
+//   function (req, res) {
+//     // Successful authentication, redirect home.
+//     console.log(req.user);
+//     res.redirect('/');
+//   }
+// );
 
 app.get('/', (req, res) => {
   return res.send({ msg: 'hello' });
 });
 
-const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 2345;
 
 app.listen(PORT, async () => {
   try {

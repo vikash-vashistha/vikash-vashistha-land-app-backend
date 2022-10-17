@@ -19,34 +19,33 @@ router.post("", authenticate, async (req, res) => {
   }
 });
 
-router.get("", async (req, res) => {
+
+// getting schemes inside cities
+router.get("/scheme/:city", async (req, res) => {
   try {
-    let Products;
-    console.log(req.query.location)
-    if (req.query.location) {
-      Products = await Product.find({ location: { $eq: "kota" } })
+    const {city} = req.params;
+      const Products = await Product.find({ location: new RegExp(city, "i") })
         .lean()
         .exec();
-      console.log(Products, req.query.location);
-    } else {
-      Products = await Product.find().lean().exec();
-    }
-    return res.send(Products);
+      console.log(Products, req.params);
+    return res.status(200).send(Products);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
 });
 
-router.get("/locations/", async (req, res) => {
+
+// getting cities
+router.get("/locations", async (req, res) => {
   try {
     let Cities;
     let {city} = req.query;
-    console.log(city);
+    // console.log(city);
     if (city) {
       Cities = await Location.find({ city: new RegExp(city, "i") })
         .lean()
         .exec();
-      console.log(Cities, req.query.city);
+      // console.log(Cities, req.query.city);
     } else {
       Cities = await Location.find().lean().exec();
     }
