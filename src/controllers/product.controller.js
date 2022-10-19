@@ -73,9 +73,13 @@ router.get("/lands/:sid", async (req, res) => {
 router.get("/singleland/:lid", async (req, res) => {
   try {
     const { lid } = req.params;
-    const Products = await Land.find({ "_id": lid }).lean().exec();
+    // db.lands.find({ _id: ObjectId("634d5260d0c9188cce90c367") });
+    const Products = await Land.find({
+      _id: lid,
+    });
+      
     console.log(Products, req.params);
-    return res.status(200).send(Products);
+    return res.status(200).send(Products[0]);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -84,7 +88,9 @@ router.get("/singleland/:lid", async (req, res) => {
 router.get("/plots/:pid", async (req, res) => {
   try {
     const { pid } = req.params;
-    const Products = await Plot.find({ _id: new RegExp(pid, "i") })
+    const Products = await Plot.find({
+      _id: pid,
+    })
       .lean()
       .exec();
     console.log(Products, req.params);
