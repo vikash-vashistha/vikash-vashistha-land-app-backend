@@ -2,10 +2,10 @@ const express = require('express');
 var cors = require('cors');
 
 const connect = require('./configs/db');
-// const passport = require('./configs/google.oatuh');
+const passport = require('./configs/google.oatuh');
 const userController = require('./controllers/user.controller');
 const productController = require('./controllers/product.controller');
-const { register, login } = require('./controllers/auth.controller');
+const { register, login, newToken } = require('./controllers/auth.controller');
 const transactionRouter = require('./controllers/transaction.controller');
 
 const app = express();
@@ -25,23 +25,28 @@ app.use('/products', productController);
 //transaction
 app.use('/transaction', transactionRouter);
 
-// app.get(
-//   '/auth/google',
-//   passport.authenticate('google', { scope: ['profile', 'email'] })
-// );
+app.get(
+  '/auth/google',
+  passport.authenticate('google', { scope: ['profile', 'email'] })
+);
 
-// app.get(
-//   '/auth/google/callback',
-//   passport.authenticate('google', {
-//     failureRedirect: '/login',
-//     session: false,
-//   }),
-//   function (req, res) {
-//     // Successful authentication, redirect home.
-//     console.log(req.user);
-//     res.redirect('/');
-//   }
-// );
+app.get(
+  '/auth/google/callback',
+  passport.authenticate('google', {
+    failureRedirect: '/login',
+    session: false,
+  }),
+  function (req, res) {
+    // Successful authentication, redirect home.
+    console.log(req.user);
+    // then we will create the token for that user
+    const token = newToken(req.user);
+
+    // then return the user and the token
+    res.send({user: req.user, token });
+    res.redirect("/");
+  }
+);
 
 app.get('/', (req, res) => {
   return res.send({ msg: 'hello' });
