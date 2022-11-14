@@ -56,14 +56,15 @@ router.get("/scheme/:city", async (req, res) => {
 });
 
 // getting lands inside scheme
-router.get("/lands/:sid", async (req, res) => {
+router.get("/alllands/:sid", async (req, res) => {
   try {
     const { sid } = req.params;
-    const Products = await Land.find({ scheme: new RegExp(sid, "i") })
+    // console.log(sid)
+    const products = await Land.find({ scheme: sid })
       .lean()
       .exec();
-    console.log(Products, req.params);
-    return res.status(200).send(Products);
+    console.log(products);
+    return res.status(200).send(products);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -74,12 +75,12 @@ router.get("/singleland/:lid", async (req, res) => {
   try {
     const { lid } = req.params;
     // db.lands.find({ _id: ObjectId("634d5260d0c9188cce90c367") });
-    const Products = await Land.find({
-      _id: lid,
+    const Products = await Plot.find({
+      land_id: lid,
     });
       
-    console.log(Products, req.params);
-    return res.status(200).send(Products[0]);
+    console.log("ldfj",Products);
+    return res.status(200).send(Products);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -94,6 +95,22 @@ router.get("/plots/:pid", async (req, res) => {
       .lean()
       .exec();
     console.log(Products, req.params);
+    return res.status(200).send(Products);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+// getting lands by user id
+router.get("/lands", authenticate, async (req, res) => {
+  try {
+    console.log("kdlfj")
+    const Products = await Land.find({
+      partenrs: { $in: [{ user_id: req.user._id }] },
+    })
+      .lean()
+      .exec();
+    console.log(Products)
     return res.status(200).send(Products);
   } catch (err) {
     return res.status(500).send({ message: err.message });
