@@ -19,6 +19,7 @@
   },
   "homepage": "https://github.com/vikash-vashistha/vikash-vashistha-land-app-backend#readme",
   "dependencies": {
+    "bcrypt": "^5.1.0",
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
     "dotenv": "^16.0.3",

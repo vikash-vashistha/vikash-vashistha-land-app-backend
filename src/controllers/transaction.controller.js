@@ -14,12 +14,13 @@ transactionRouter.post("", authenticate, async (req, res) => {
   }
 });
 
-transactionRouter.get("/", async (req, res) => {
+transactionRouter.get("/", authenticate, async (req, res) => {
   console.log(req.query)
   const page = +req.query.page || 1;
   const size = +req.query.size || 3;
   try {
-    const transaction = await Transaction.find()
+    console.log(req.user)
+    const transaction = await Transaction.find({user_id: req.user._id})
       .skip((page - 1) * size)
       .limit(size)
       .lean()

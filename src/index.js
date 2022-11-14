@@ -3,7 +3,7 @@ var cors = require('cors');
 
 const connect = require('./configs/db');
 const passport = require('./configs/google.oatuh');
-const userController = require('./controllers/user.controller');
+// const userController = require('./controllers/user.controller');
 const productController = require('./controllers/product.controller');
 const { register, login, newToken } = require('./controllers/auth.controller');
 const transactionRouter = require('./controllers/transaction.controller');
@@ -19,7 +19,7 @@ app.post('/register', register);
 // .login
 app.post('/login', login);
 
-app.use('/users', userController);
+// app.use('/users', userController);
 app.use('/products', productController);
 
 //transaction
