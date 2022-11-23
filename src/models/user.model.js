@@ -24,6 +24,7 @@ userSchema.pre("save", function (next) {
   // hashing rounds =>
   var hash = bcrypt.hashSync(this.password, 8);
   this.password = hash;
+  // console.log(hash)
   return next();
 });
 

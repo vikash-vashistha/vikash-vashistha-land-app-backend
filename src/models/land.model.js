@@ -1,19 +1,29 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const landSchema = new mongoose.Schema(
   {
-    title: { type: String, required: true },
-    price: { type: Number, required: true },
     date: { type: String },
-    scheme: { type: String },
+    location: { type: String, required: true },
+    scheme: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "scheme",
+      require: true,
+    },
     price: { type: Number },
     area: { type: Number },
-    user_id: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "user",
-      required: true,
-    },
-    location: { type: String, required: true },
+    partenrs: [
+      {
+        user_id: {
+          type: mongoose.Schema.Types.ObjectId,
+          ref: "user",
+        },
+      },
+    ],
+    electricity: { type: Boolean },
+    road: { type: Boolean },
+    sewerage: { type: Boolean },
+    water: { type: Boolean },
+    facility: [{ type: String }],
   },
   {
     versionKey: false,
@@ -21,4 +31,4 @@ const landSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('land', landSchema);
+module.exports = mongoose.model("land", landSchema);

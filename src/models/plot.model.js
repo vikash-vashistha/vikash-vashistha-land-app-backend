@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
 const plotSchema = new mongoose.Schema(
   {
@@ -6,9 +6,19 @@ const plotSchema = new mongoose.Schema(
     price: { type: Number, required: true },
     land: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'land',
+      ref: "land",
       required: true,
     },
+    user_id: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "user",
+      required: true,
+    },
+    partners: { type: Boolean },
+    eastroad: { type: Boolean },
+    westroad: { type: Boolean },
+    northroad: { type: Boolean },
+    southroad: { type: Boolean },
   },
   {
     versionKey: false,
@@ -16,4 +26,4 @@ const plotSchema = new mongoose.Schema(
   }
 );
 
-module.exports = mongoose.model('plot', plotSchema);
+module.exports = mongoose.model("plot", plotSchema);

@@ -17,8 +17,8 @@ const register = async (req, res) => {
 
     // if user is not found then we will create the user with the email and the password provided
     user = await User.create(req.body);
-console.log(user)
-    res.send({ user });
+    console.log(user);
+    res.status(200).send({ user });
   } catch (err) {
     res.status(500).send(err.message);
   }

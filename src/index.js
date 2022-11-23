@@ -7,6 +7,8 @@ const passport = require('./configs/google.oatuh');
 const productController = require('./controllers/product.controller');
 const { register, login, newToken } = require('./controllers/auth.controller');
 const transactionRouter = require('./controllers/transaction.controller');
+const schemeController = require('./controllers/scheme.controller')
+const landController = require('./controllers/land.controller')
 
 const app = express();
 
@@ -21,7 +23,8 @@ app.post('/login', login);
 
 // app.use('/users', userController);
 app.use('/products', productController);
-
+app.use('/scheme', schemeController);
+app.use('/land', landController);
 //transaction
 app.use('/transaction', transactionRouter);
 

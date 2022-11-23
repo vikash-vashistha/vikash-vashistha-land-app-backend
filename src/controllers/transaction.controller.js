@@ -15,22 +15,36 @@ transactionRouter.post("", authenticate, async (req, res) => {
 });
 
 transactionRouter.get("/", authenticate, async (req, res) => {
-  console.log(req.query)
+  console.log("query", req.query)
   const page = +req.query.page || 1;
   const size = +req.query.size || 3;
   try {
-    console.log(req.user)
-    const transaction = await Transaction.find({user_id: req.user._id})
-      .skip((page - 1) * size)
+    console.log("user",req.user)
+    const transaction = 
+      await Transaction.find({ from: req.user._id }).populate(["to", "from", "land_id", "plot_id"]).skip((page - 1) * size)
       .limit(size)
       .lean()
       .exec();
-
+console.log(transaction);
     const totalPages = Math.ceil(
       (await Transaction.find().countDocuments()) / size
     );
 
     return res.send({transaction, totalPages});
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+transactionRouter.get("/balance/:tid", authenticate, async (req, res) => {
+  try {
+    const { tid } = req.params;
+    const transaction = await Transaction.find({ _id: tid })
+      .populate(["to", "from", "land_id", "plot_id"]).lean()
+      .exec();
+    console.log(transaction);
+
+    return res.send({ transaction });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
