@@ -24,9 +24,16 @@ router.get("/:sid", async (req, res) => {
     const { category, sortBy, range } = req.query;
     let products
     if (category) {
+      // products = await Land.find({
+      //   scheme: sid,
+      //   facility: { $in: typeof category === Array ? [...category] : category },
+      // })
+      //   .sort({ price: sortBy == "HTL" ? -1 : 1 })
+      //   .lean()
+      //   .exec();
       products = await Land.find({
         scheme: sid,
-        facility: { $in: typeof category === Array ? [...category] : category },
+        facility: { $all: typeof category === Array ? [...category] : category },
       })
         .sort({ price: sortBy == "HTL" ? -1 : 1 })
         .lean()

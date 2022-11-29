@@ -4,21 +4,19 @@ const plotSchema = new mongoose.Schema(
   {
     title: { type: String, required: true },
     price: { type: Number, required: true },
-    land: {
+    date: { type: String },
+    land_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "land",
       required: true,
     },
+    length: { type: Number },
+    width: {type: Number},
     user_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
-      required: true,
     },
-    partners: { type: Boolean },
-    eastroad: { type: Boolean },
-    westroad: { type: Boolean },
-    northroad: { type: Boolean },
-    southroad: { type: Boolean },
+    road: [{ type: String }],
   },
   {
     versionKey: false,

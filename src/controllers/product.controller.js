@@ -38,31 +38,48 @@ router.get("/locations", async (req, res) => {
 router.get("/singleland/:lid", async (req, res) => {
   try {
     const { lid } = req.params;
-    // db.lands.find({ _id: ObjectId("634d5260d0c9188cce90c367") });
-    const Products = await Plot.find({
-      land_id: lid,
-    });
-      
-    console.log("ldfj",Products);
-    return res.status(200).send(Products);
+    const { category, sortBy, range } = req.query;
+    let products;
+    if (category) {
+      products = await Plot.find({
+        land_id: lid,
+        road: { $all: typeof category === Array ? [...category] : category },
+      })
+        .populate(["land_id", "user_id"])
+        .sort({ price: sortBy == "HTL" ? -1 : 1 })
+        .lean()
+        .exec();
+    } else {
+      products = await Plot.find({
+        land_id: lid,
+      })
+        .populate(["land_id", "user_id"])
+        .sort({ price: sortBy == "HTL" ? -1 : 1 })
+        .lean()
+        .exec();
+    }
+    console.log(products);
+    return res.status(200).send(products);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
+  
 });
 
 router.get("/plots/:pid", async (req, res) => {
-  try {
-    const { pid } = req.params;
-    const Products = await Plot.find({
-      _id: pid,
-    })
-      .lean()
-      .exec();
-    console.log(Products, req.params);
-    return res.status(200).send(Products);
-  } catch (err) {
-    return res.status(500).send({ message: err.message });
-  }
+    try {
+      const { pid } = req.params;
+      const Products = await Plot.find({
+        _id: pid,
+      })
+        .populate(["land_id", "user_id"])
+        .lean()
+        .exec();
+      console.log(Products, req.params);
+      return res.status(200).send(Products);
+    } catch (err) {
+      return res.status(500).send({ message: err.message });
+    }
 });
 
 

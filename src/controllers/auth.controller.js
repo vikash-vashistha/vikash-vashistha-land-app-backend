@@ -26,26 +26,27 @@ const register = async (req, res) => {
 
 const login = async (req, res) => {
   try {
+    
     // we will try to find the user with the email provided
     const user = await User.findOne({ email: req.body.email });
-
+    
     // If user is not found then return error
     if (!user)
-      return res
-        .status(400)
-        .send({ message: "Please try another email or password" });
-
+    return res
+    .status(400)
+    .send({ message: "Please try another email or password" });
+    
     // if user is found then we will match the passwords
     const match = user.checkPassword(req.body.password);
-
+    // console.log(match);
     if (!match)
-      return res
-        .status(400)
-        .send({ message: "Please try another email or password" });
-
+    return res
+    .status(400)
+    .send({ message: "Please try another email or password" });
+    
     // then we will create the token for that user
     const token = newToken(user);
-
+    // console.log(req.body, token);
     // then return the user and the token
     res.send({ user, token });
   } catch (err) {

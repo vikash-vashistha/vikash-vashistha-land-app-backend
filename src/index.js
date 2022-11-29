@@ -1,5 +1,7 @@
 const express = require('express');
+const http = require('http');
 var cors = require('cors');
+// const { Server } = require("socket.io");
 
 const connect = require('./configs/db');
 const passport = require('./configs/google.oatuh');
@@ -9,6 +11,7 @@ const { register, login, newToken } = require('./controllers/auth.controller');
 const transactionRouter = require('./controllers/transaction.controller');
 const schemeController = require('./controllers/scheme.controller')
 const landController = require('./controllers/land.controller')
+const userController = require('./controllers/user.controller')
 
 const app = express();
 
@@ -21,7 +24,7 @@ app.post('/register', register);
 // .login
 app.post('/login', login);
 
-// app.use('/users', userController);
+app.use('/user', userController);
 app.use('/products', productController);
 app.use('/scheme', schemeController);
 app.use('/land', landController);
@@ -66,3 +69,16 @@ app.listen(PORT, async () => {
   }
   console.log('listening on port 2345');
 });
+
+// const httpServer = http.createServer(app);
+// const wss = new Server(httpServer)
+
+// httpServer.listen(PORT, async () => {
+//   try {
+//     await connect();
+//     console.log("connected to atlas");
+//   } catch (err) {
+//     console.error(err.message);
+//   }
+//   console.log("listening on port 2345");
+// });
