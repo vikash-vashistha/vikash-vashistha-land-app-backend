@@ -12,6 +12,7 @@ const transactionRouter = require('./controllers/transaction.controller');
 const schemeController = require('./controllers/scheme.controller')
 const landController = require('./controllers/land.controller')
 const userController = require('./controllers/user.controller')
+const cartController = require('./controllers/cart.controller')
 
 const app = express();
 
@@ -28,6 +29,7 @@ app.use('/user', userController);
 app.use('/products', productController);
 app.use('/scheme', schemeController);
 app.use('/land', landController);
+app.use('/cart', cartController)
 //transaction
 app.use('/transaction', transactionRouter);
 

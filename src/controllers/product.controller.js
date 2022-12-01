@@ -1,4 +1,5 @@
 const express = require("express");
+const authenticate = require("../middlewares/authenticate");
 
 
 const Location = require("../models/location.model");
@@ -83,5 +84,17 @@ router.get("/plots/:pid", async (req, res) => {
 });
 
 
+router.post("/", async (req, res) => {
+  try {
+    // req.body.user_id = req.user._id;
+    // user_id: req.user._id
+    // console.log("viK", req.body);
+    const product = await Plot.create(req.body);
+    console.log(product);
+    return res.send(product);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
 
 module.exports = router;

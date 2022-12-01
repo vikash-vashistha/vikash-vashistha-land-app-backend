@@ -9,7 +9,7 @@ router.get("", authenticate, async (req, res) => {
     const user = await User.find({ _id: req.user._id })
       .lean()
       .exec();
-    console.log(user);
+    // console.log(user);
 
     return res.send({ user });
   } catch (err) {

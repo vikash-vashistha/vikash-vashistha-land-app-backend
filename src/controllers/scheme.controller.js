@@ -2,6 +2,20 @@ const express = require("express")
 const Scheme = require("../models/scheme.model")
 const router = express.Router();
 
+
+router.get("/", async (req, res) => {
+  try {
+    const Products = await Scheme.find({})
+      .lean()
+      .exec();
+    console.log(Products, req.params);
+    return res.status(200).send(Products);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+
 // getting schemes inside cities
 router.get("/:city", async (req, res) => {
   try {

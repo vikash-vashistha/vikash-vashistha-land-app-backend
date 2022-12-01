@@ -11,18 +11,16 @@ const landSchema = new mongoose.Schema(
     },
     price: { type: Number },
     area: { type: Number },
-    partenrs: [
+    partners: [
       {
-        user_id: {
           type: mongoose.Schema.Types.ObjectId,
           ref: "user",
-        },
+          require: true,
+        
       },
     ],
-    electricity: { type: Boolean },
-    road: { type: Boolean },
-    sewerage: { type: Boolean },
-    water: { type: Boolean },
+    status: { type: Boolean },
+    title: { type: String, required: true},
     facility: [{ type: String }],
   },
   {

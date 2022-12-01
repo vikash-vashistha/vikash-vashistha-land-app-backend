@@ -16,14 +16,14 @@ module.exports = async (req, res, next) => {
   // if not throw an errors
   if (!req.headers.authorization)
     return res.status(400).send({
-      message: "authorization token was not provided or was not valid",
+      message: "authorization token was not provided or was not valid 1",
     });
 
   // if bearer token is in authorization header
   // if not throw an error
   if (!req.headers.authorization.startsWith("Bearer "))
     return res.status(400).send({
-      message: "authorization token was not provided or was not valid",
+      message: "authorization token was not provided or was not valid 2",
     });
 
   // split the bearer token and get the [1] which is the token
