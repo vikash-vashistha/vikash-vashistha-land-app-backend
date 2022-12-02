@@ -7,9 +7,9 @@ router.get("/", authenticate, async (req, res) => {
   try {
     // req.body.user_id = req.user._id;
     // user_id: req.user._id
-    console.log(req.user._id);
+    // console.log(req.user._id);
     const product = await Land.find({partners: {$in: req.user._id}});
-console.log(product);
+// console.log(product);
     return res.send(product);
   } catch (err) {
     return res.status(500).send({ message: err.message });
@@ -20,7 +20,7 @@ router.post("/",  async (req, res) => {
   try {
     // req.body.user_id = req.user._id;
     // user_id: req.user._id
-    console.log(req.body)
+    // console.log(req.body)
     const product = await Land.create(req.body);
 
     return res.send(product);
@@ -34,7 +34,7 @@ router.get("seller/:id", async (req, res) => {
     // req.body.user_id = req.user._id;
     // user_id: req.user._id
     const { id } = req.params;
-    console.log(req.body);
+    // console.log(req.body);
     const product = await Land.find({_id: id});
 
     return res.send(product);
@@ -47,7 +47,7 @@ router.get("seller/:id", async (req, res) => {
 router.get("/:sid", async (req, res) => {
   try {
     const { sid } = req.params;
-    console.log("req.query", req.query, sid)
+    // console.log("req.query", req.query, sid)
     const { category, sortBy, range } = req.query;
     let products
     if (category) {
@@ -60,15 +60,19 @@ router.get("/:sid", async (req, res) => {
       //   .exec();
       products = await Land.find({
         scheme: sid,
-        facility: { $all: typeof category === Array ? [...category] : category },
+        facility: {
+          $all: typeof category === Array ? [...category] : category,
+        },
       })
+      .populate(["scheme", "partners"])
         .sort({ price: sortBy == "HTL" ? -1 : 1 })
         .lean()
         .exec();
     } else {
       products = await Land.find({
-        scheme: sid
+        scheme: sid,
       })
+        .populate(["scheme", "partners"])
         .sort({ price: sortBy == "HTL" ? -1 : 1 })
         .lean()
         .exec();

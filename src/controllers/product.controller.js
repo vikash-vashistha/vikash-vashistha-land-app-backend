@@ -59,7 +59,7 @@ router.get("/singleland/:lid", async (req, res) => {
         .lean()
         .exec();
     }
-    console.log(products);
+    // console.log(products);
     return res.status(200).send(products);
   } catch (err) {
     return res.status(500).send({ message: err.message });
@@ -76,7 +76,7 @@ router.get("/plots/:pid", async (req, res) => {
         .populate(["land_id", "user_id"])
         .lean()
         .exec();
-      console.log(Products, req.params);
+      // console.log(Products, req.params);
       return res.status(200).send(Products);
     } catch (err) {
       return res.status(500).send({ message: err.message });
@@ -90,7 +90,7 @@ router.post("/", async (req, res) => {
     // user_id: req.user._id
     // console.log("viK", req.body);
     const product = await Plot.create(req.body);
-    console.log(product);
+    // console.log(product);
     return res.send(product);
   } catch (err) {
     return res.status(500).send({ message: err.message });

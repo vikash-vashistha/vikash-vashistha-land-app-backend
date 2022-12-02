@@ -8,7 +8,7 @@ router.get("/", async (req, res) => {
     const Products = await Scheme.find({})
       .lean()
       .exec();
-    console.log(Products, req.params);
+    // console.log(Products, req.params);
     return res.status(200).send(Products);
   } catch (err) {
     return res.status(500).send({ message: err.message });
@@ -23,7 +23,7 @@ router.get("/:city", async (req, res) => {
     const Products = await Scheme.find({ city: new RegExp(city, "i") })
       .lean()
       .exec();
-    console.log(Products, req.params);
+    // console.log(Products, req.params);
     return res.status(200).send(Products);
   } catch (err) {
     return res.status(500).send({ message: err.message });
