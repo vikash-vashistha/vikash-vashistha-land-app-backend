@@ -4,6 +4,16 @@ const User = require("../models/user.model");
 
 const router = express.Router();
 
+router.get("/all", authenticate, async (req, res) => {
+  try {
+    const user = await User.find().lean().exec();
+
+    return res.send({ user });
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
 router.get("", authenticate, async (req, res) => {
   try {
     const user = await User.find({ _id: req.user._id })

@@ -14,6 +14,7 @@ const verifyToken = (token) => {
 module.exports = async (req, res, next) => {
   // check if authorization header has been set
   // if not throw an errors
+  // console.log("header 1", req.headers.authorization);
   if (!req.headers.authorization)
     return res.status(400).send({
       message: "authorization token was not provided or was not valid 1",
@@ -21,6 +22,7 @@ module.exports = async (req, res, next) => {
 
   // if bearer token is in authorization header
   // if not throw an error
+    // console.log("header 2", req.headers.authorization);
   if (!req.headers.authorization.startsWith("Bearer "))
     return res.status(400).send({
       message: "authorization token was not provided or was not valid 2",

@@ -7,10 +7,10 @@ const router = express.Router();
 router.post("/", authenticate, async (req, res) => {
   try {
     // console.log("vik",req.body);
-    const cartItems = await Chat.create(req.body);
+    const chatItems = await Chat.create(req.body);
     // console.log(cartItems);
 
-    return res.send(cartItems);
+    return res.send(chatItems);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -43,8 +43,24 @@ router.get("/:id", authenticate, async (req, res) => {
       .lean()
       .exec();
     // console.log(cartItems);
+const replys = await Chat.find({ user_id: id, chat_with: req.user._id })
+  .populate(["user_id", "chat_with"])
+  .lean()
+  .exec();
+    return res.send({ chats, replys });
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
 
-    return res.send(chats);
+router.patch("/", authenticate, async (req, res) => {
+  try {
+    console.log("vik",req.body);
+    const {user_id, chat_with} = req.body;
+    const chat = await Chat.findOneAndUpdate({ user_id, chat_with }, {messages: req.body.messages});
+    // console.log(cartItems);
+
+    return res.send(chat);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
