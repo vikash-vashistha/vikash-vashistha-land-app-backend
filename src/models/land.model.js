@@ -2,25 +2,24 @@ const mongoose = require("mongoose");
 
 const landSchema = new mongoose.Schema(
   {
-    date: { type: String },
+    date: { type: String, require: true },
     location: { type: String, required: true },
     scheme: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "scheme",
       require: true,
     },
-    price: { type: Number },
-    area: { type: Number },
+    price: { type: Number, require: true },
+    area: { type: Number, require: true },
     partners: [
       {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: "user",
-          require: true,
-        
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "user",
+        require: true,
       },
     ],
-    status: { type: Boolean },
-    title: { type: String, required: true},
+    status: { type: Boolean, require: true },
+    title: { type: String, required: true, unique: true },
     facility: [{ type: String }],
   },
   {

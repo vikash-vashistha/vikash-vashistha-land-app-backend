@@ -4,7 +4,7 @@ const transactionSchema = new mongoose.Schema(
   {
     type: { type: String, required: true, enum: ["credit", "debit"] },
     date: { type: Date, required: true },
-    amount: { type: String },
+    amount: { type: String, require: true },
 
     land_id: {
       type: mongoose.Schema.Types.ObjectId,
@@ -25,7 +25,7 @@ const transactionSchema = new mongoose.Schema(
       type: mongoose.Schema.Types.ObjectId,
       ref: "user",
       required: true,
-    }
+    },
   },
   {
     versionKey: false,
