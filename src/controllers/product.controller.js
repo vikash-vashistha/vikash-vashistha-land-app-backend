@@ -97,4 +97,50 @@ router.post("/", async (req, res) => {
   }
 });
 
+router.post("/admin", async (req, res) => {
+  try {
+    const plot = await Plot.create(req.body);
+
+    return res.status(200).send(plot);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+router.get("/admin", authenticate, async (req, res) => {
+  console.log("Inside Plot");
+  try {
+    let plot;
+    let { title } = req.query;
+    console.log(title);
+    if (title) {
+      plot = await Plot.find({
+        title: new RegExp(title, "i"),
+      })
+        .populate(["land_id"])
+        .lean()
+        .exec();
+      // console.log(Cities, req.query.city);
+    } else {
+      plot = await Plot.find().populate(["land_id"]).lean().exec();
+    }
+
+    return res.status(200).send(plot);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+router.delete("/admin/:id", authenticate, async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const plot = await Plot.deleteOne({ _id: id }).lean().exec();
+
+    return res.status(200).send(plot);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
 module.exports = router;

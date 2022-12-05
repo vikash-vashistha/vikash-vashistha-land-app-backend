@@ -50,4 +50,53 @@ transactionRouter.get("/balance/:tid", authenticate, async (req, res) => {
   }
 });
 
+transactionRouter.post("/admin", async (req, res) => {
+  try {
+    const transaction = await Transaction.create(req.body);
+
+    return res.status(200).send(transaction);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+transactionRouter.get("/admin", authenticate, async (req, res) => {
+  console.log("Inside transaction");
+  try {
+    let transaction;
+    let { transaction_id } = req.query;
+    console.log(transaction_id);
+    if (transaction_id) {
+      transaction = await Transaction.find({
+        transaction_id: new RegExp(transaction_id, "i"),
+      })
+        .populate(["to", "from", "land_id", "plot_id"])
+        .lean()
+        .exec();
+      // console.log(transaction);
+    } else {
+      transaction = await Transaction.find()
+        .populate(["to", "from", "land_id", "plot_id"])
+        .lean()
+        .exec();
+    }
+
+    return res.status(200).send(transaction);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+transactionRouter.delete("/admin/:id", authenticate, async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const transaction = await Transaction.deleteOne({ _id: id }).lean().exec();
+
+    return res.status(200).send(transaction);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
 module.exports = transactionRouter;
