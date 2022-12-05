@@ -141,4 +141,49 @@ router.get("/seller", authenticate, async (req, res) => {
   }
 });
 
+router.post("/admin", async (req, res) => {
+  try {
+    const land = await Land.create(req.body);
+
+    return res.status(200).send(land);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+router.get("/admin", authenticate, async (req, res) => {
+  console.log("Inside land");
+  try {
+    let land;
+    let { title } = req.query;
+    console.log(title);
+    if (title) {
+      land = await Land.find({
+        title: new RegExp(title, "i"),
+      }).populate(["scheme", "partners"])
+        .lean()
+        .exec();
+      // console.log(Cities, req.query.city);
+    } else {
+      land = await Land.find().populate(["scheme", "partners"]).lean().exec();
+    }
+
+    return res.status(200).send(land);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+router.delete("/admin/:id", authenticate, async (req, res) => {
+  const { id } = req.params;
+  console.log(id);
+  try {
+    const land = await Land.deleteOne({ _id: id }).lean().exec();
+
+    return res.status(200).send(land);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
 module.exports = router;
