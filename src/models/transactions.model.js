@@ -5,7 +5,7 @@ const transactionSchema = new mongoose.Schema(
     type: { type: String, required: true, enum: ["credit", "debit"] },
     date: { type: Date, required: true },
     amount: { type: String, require: true },
-
+transaction_id: { type: String, require: true },
     land_id: {
       type: mongoose.Schema.Types.ObjectId,
       ref: "land",

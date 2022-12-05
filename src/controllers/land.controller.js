@@ -44,52 +44,52 @@ router.post("/",  async (req, res) => {
 // });
 
 // getting lands inside scheme
-// router.get("/:sid", async (req, res) => {
-//   try {
-//     const { sid } = req.params;
-//     // console.log("req.query", req.query, sid)
-//     const { category, sortBy, range } = req.query;
-//     let products
-//     if (category) {
-//       // products = await Land.find({
-//       //   scheme: sid,
-//       //   facility: { $in: typeof category === Array ? [...category] : category },
-//       // })
-//       //   .sort({ price: sortBy == "HTL" ? -1 : 1 })
-//       //   .lean()
-//       //   .exec();
-//       products = await Land.find({
-//         scheme: sid,
-//         facility: {
-//           $all: typeof category === Array ? [...category] : category,
-//         },
-//       })
-//       .populate(["scheme", "partners"])
-//         .sort({ price: sortBy == "HTL" ? -1 : 1 })
-//         .lean()
-//         .exec();
-//     } else {
-//       products = await Land.find({
-//         scheme: sid,
-//       })
-//         .populate(["scheme", "partners"])
-//         .sort({ price: sortBy == "HTL" ? -1 : 1 })
-//         .lean()
-//         .exec();
-//     }
-//     // console.log(products)
-//     // db.lands.find({
-//     //   scheme: "63727fa8fe51d531ee219225",
-//     //   facility: { $in: ["water"] },
-//     // });
-//     // console.log(products);
+router.get("/:sid", async (req, res) => {
+  try {
+    const { sid } = req.params;
+    // console.log("req.query", req.query, sid)
+    const { category, sortBy, range } = req.query;
+    let products
+    if (category) {
+      // products = await Land.find({
+      //   scheme: sid,
+      //   facility: { $in: typeof category === Array ? [...category] : category },
+      // })
+      //   .sort({ price: sortBy == "HTL" ? -1 : 1 })
+      //   .lean()
+      //   .exec();
+      products = await Land.find({
+        scheme: sid,
+        facility: {
+          $all: typeof category === Array ? [...category] : category,
+        },
+      })
+      .populate(["scheme", "partners"])
+        .sort({ price: sortBy == "HTL" ? -1 : 1 })
+        .lean()
+        .exec();
+    } else {
+      products = await Land.find({
+        scheme: sid,
+      })
+        .populate(["scheme", "partners"])
+        .sort({ price: sortBy == "HTL" ? -1 : 1 })
+        .lean()
+        .exec();
+    }
+    // console.log(products)
+    // db.lands.find({
+    //   scheme: "63727fa8fe51d531ee219225",
+    //   facility: { $in: ["water"] },
+    // });
+    // console.log(products);
 
-//     // this query is working in mongodb but not working in mongooes.(this was due to relations)
-//     return res.status(200).send(products);
-//   } catch (err) {
-//     return res.status(500).send({ message: err.message });
-//   }
-// });
+    // this query is working in mongodb but not working in mongooes.(this was due to relations)
+    return res.status(200).send(products);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
 
 // getting lands by user id
 // router.get("/lands", authenticate, async (req, res) => {

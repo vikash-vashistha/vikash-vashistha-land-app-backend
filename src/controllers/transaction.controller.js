@@ -65,14 +65,13 @@ transactionRouter.get("/admin", authenticate, async (req, res) => {
   try {
     let transaction;
     let { transaction_id } = req.query;
-    console.log(transaction_id);
     if (transaction_id) {
       transaction = await Transaction.find({
-        transaction_id: new RegExp(transaction_id, "i"),
+        transaction_id: new RegExp(transaction_id, "i")
       })
-        .populate(["to", "from", "land_id", "plot_id"])
-        .lean()
-        .exec();
+      .populate(["to", "from", "land_id", "plot_id"])
+      .lean()
+      .exec();
       // console.log(transaction);
     } else {
       transaction = await Transaction.find()
