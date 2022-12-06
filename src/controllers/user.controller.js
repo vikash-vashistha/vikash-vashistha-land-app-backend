@@ -27,6 +27,7 @@ router.get("", authenticate, async (req, res) => {
   }
 });
 
+
 router.get("/admin", authenticate, async (req, res) => {
   try {
      let user;
@@ -53,6 +54,23 @@ router.delete("/admin/:id", authenticate, async (req, res) => {
   try {
     const user = await User.deleteOne({_id: id}).lean().exec();
     
+
+    return res.status(200).send(user);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+router.patch("/admin/:id", async (req, res) => {
+  const { id } = req.params;
+  console.log("id", id, req.body);
+  try {
+    const user = await User.updateOne(
+      { _id: id },
+      { ...req.body, role: ["coustomer", "seller"] }
+    )
+      .lean()
+      .exec();
 
     return res.status(200).send(user);
   } catch (err) {

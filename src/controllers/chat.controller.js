@@ -17,6 +17,7 @@ router.post("/", authenticate, async (req, res) => {
 });
 
 router.get("/all", authenticate, async (req, res) => {
+  console.log("inside all");
   try {
     const chats = await Chat.find({ user_id: req.user._id})
       .populate(["user_id", "chat_with"])
@@ -35,6 +36,7 @@ router.get("/all", authenticate, async (req, res) => {
 });
 
 router.get("/:id", authenticate, async (req, res) => {
+  console.log("inside id");
   try {
     // console.log("vik", req.body);
     const { id } = req.params;

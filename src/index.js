@@ -16,6 +16,7 @@ const landController = require('./controllers/land.controller')
 const userController = require('./controllers/user.controller')
 const cartController = require('./controllers/cart.controller')
 const chatController = require('./controllers/chat.controller')
+const requestController = require('./controllers/request.controller')
 
 const app = express();
 
@@ -34,6 +35,7 @@ app.use('/scheme', schemeController);
 app.use('/land', landController);
 app.use('/cart', cartController);
 app.use('/chat', chatController);
+app.use('/request', requestController);
 //transaction
 app.use('/transaction', transactionRouter);
 

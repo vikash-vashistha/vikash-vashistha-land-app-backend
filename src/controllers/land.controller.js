@@ -124,7 +124,8 @@ router.get("/:sid", async (req, res) => {
 
 // Getting lands of a seller
 
-router.get("/seller", authenticate, async (req, res) => {
+router.get("/seller/all", authenticate, async (req, res) => {
+  console.log("inside seller");
   try {
     const { category, sortBy, range } = req.query;
     let products;

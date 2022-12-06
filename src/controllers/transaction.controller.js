@@ -15,7 +15,7 @@ transactionRouter.post("", authenticate, async (req, res) => {
 });
 
 transactionRouter.get("/", authenticate, async (req, res) => {
-  // console.log("query", req.query)
+  console.log("inside transaction by user")
   const page = +req.query.page || 1;
   const size = +req.query.size || 3;
   try {
