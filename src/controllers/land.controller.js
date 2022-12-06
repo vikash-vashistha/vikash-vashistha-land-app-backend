@@ -16,13 +16,27 @@ const authenticate = require("../middlewares/authenticate");
 //   }
 // });
 
-router.post("/",  async (req, res) => {
+router.post("/", async (req, res) => {
   try {
     // req.body.user_id = req.user._id;
     // user_id: req.user._id
     // console.log(req.body)
     const product = await Land.create(req.body);
 
+    return res.send(product);
+  } catch (err) {
+    return res.status(500).send({ message: err.message });
+  }
+});
+
+router.patch("/partner/:id", async (req, res) => {
+  try {
+    // req.body.user_id = req.user._id;
+    // user_id: req.user._id
+    console.log(req.body)
+    const { id } = req.params;
+    console.log(id);
+    const product = await Land.updateOne({_id: id}, {partners: req.body});
     return res.send(product);
   } catch (err) {
     return res.status(500).send({ message: err.message });
