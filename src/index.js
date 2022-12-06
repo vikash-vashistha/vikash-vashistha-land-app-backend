@@ -70,8 +70,8 @@ const razorpay = new Razorpay({
   key_secret: "XPucnzKD8NGFS5pyITJmZYi2",
 });
 
-app.get("/logo.svg", (req, res) => {
-  res.sendFile(path.join(__dirname, "logo.svg"));
+app.get("/logo.png", (req, res) => {
+  res.sendFile(path.join(__dirname, "logo.png"));
 });
 
 app.post("/verification", (req, res) => {
@@ -102,8 +102,9 @@ app.post("/verification", (req, res) => {
 });
 
 app.post("/razorpay", async (req, res) => {
+  // console.log("body", req.body, "end")
   const payment_capture = 1;
-  const amount = 499;
+  const amount = req.body.price;
   const currency = "INR";
 
   const options = {
