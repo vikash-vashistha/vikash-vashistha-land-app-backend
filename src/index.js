@@ -68,8 +68,8 @@ app.get('/', (req, res) => {
 
 // rojerpay
 const razorpay = new Razorpay({
-  key_id: "rzp_test_X1AazF5paSfEvw",
-  key_secret: "XPucnzKD8NGFS5pyITJmZYi2",
+  key_id: process.env.KEY_ID,
+  key_secret: process.env.KEY_SECRET,
 });
 
 app.get("/logo.png", (req, res) => {
