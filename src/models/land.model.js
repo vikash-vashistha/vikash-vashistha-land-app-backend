@@ -16,6 +16,7 @@ const landSchema = new mongoose.Schema(
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
         require: true,
+        unique: true
       },
     ],
     status: { type: Boolean, require: true },

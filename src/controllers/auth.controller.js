@@ -20,7 +20,7 @@ const register = async (req, res) => {
     // console.log(user);
     res.status(200).send({ user });
   } catch (err) {
-    res.status(500).send(err.message);
+    res.status(500).send("sign-up failed");
   }
 };
 
