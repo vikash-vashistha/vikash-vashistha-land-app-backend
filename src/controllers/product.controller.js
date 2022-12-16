@@ -32,6 +32,18 @@ router.get("/locations", async (req, res) => {
   }
 });
 
+router.get("/image", async (req, res) => {
+  try {
+    console.log("inside location image");
+    let Cities;
+    Cities = await Location.aggregate([{ $match: { image: { $exists: 1 } } }])
+    // console.log(Cities);
+    return res.status(200).send(Cities);
+  } catch (err) {
+    return res.status(404).send({ message: err.message });
+  }
+});
+
 
 
 
