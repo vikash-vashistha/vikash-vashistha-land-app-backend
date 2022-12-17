@@ -20,8 +20,11 @@ transactionRouter.get("/", authenticate, async (req, res) => {
   const size = +req.query.size || 3;
   try {
     // console.log("user",req.user)
-    const transaction = 
-      await Transaction.find({ from: req.user._id }).populate(["to", "from", "land_id", "plot_id"]).skip((page - 1) * size)
+    const transaction = await Transaction.find({
+      $or: [{ from: req.user._id }, { to: req.user._id }],
+    })
+      .populate(["to", "from", "land_id", "plot_id"])
+      .skip((page - 1) * size)
       .limit(size)
       .lean()
       .exec();
