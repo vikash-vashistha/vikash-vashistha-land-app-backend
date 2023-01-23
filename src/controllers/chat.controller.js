@@ -10,7 +10,7 @@ router.post("/", authenticate, async (req, res) => {
     const chatItems = await Chat.create(req.body);
     // console.log(cartItems);
 
-    return res.send(chatItems);
+    return res.status(200).send(chatItems);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -29,7 +29,7 @@ router.get("/all", authenticate, async (req, res) => {
       .exec();
     // console.log(cartItems);
 
-    return res.send({chats, chats_with});
+    return res.status(200).send({ chats, chats_with });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -49,7 +49,7 @@ const replys = await Chat.find({ user_id: id, chat_with: req.user._id })
   .populate(["user_id", "chat_with"])
   .lean()
   .exec();
-    return res.send({ chats, replys });
+    return res.status(200).send({ chats, replys });
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -62,7 +62,7 @@ router.patch("/", authenticate, async (req, res) => {
     const chat = await Chat.findOneAndUpdate({ user_id, chat_with }, {messages: req.body.messages});
     // console.log(cartItems);
 
-    return res.send(chat);
+    return res.status(200).send(chat);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -75,7 +75,7 @@ router.delete("/:id", authenticate, async (req, res) => {
     // console.log("ram", id);
     // console.log(cartItems);
 
-    return res.send(cartItems);
+    return res.status(200).send(cartItems);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

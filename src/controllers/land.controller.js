@@ -23,7 +23,7 @@ router.post("/", async (req, res) => {
     // console.log(req.body)
     const product = await Land.create(req.body);
 
-    return res.send(product);
+    return res.status(200).send(product);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -37,7 +37,7 @@ router.patch("/partner/:id", async (req, res) => {
     const { id } = req.params;
     console.log(id);
     const product = await Land.updateOne({_id: id}, {partners: req.body});
-    return res.send(product);
+    return res.status(200).send(product);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }

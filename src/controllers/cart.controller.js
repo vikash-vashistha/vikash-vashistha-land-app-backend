@@ -6,11 +6,11 @@ const router = express.Router();
 
 router.post("/", authenticate, async (req, res) => {
   try {
-    // console.log("vik",req.body);
+    console.log("vik",req.body);
     const cartItems = await Cart.create(req.body);
     // console.log(cartItems);
 
-    return res.send(cartItems);
+    return res.status(201).send(cartItems);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -25,7 +25,7 @@ router.get("/:id", authenticate, async (req, res) => {
       .exec();
     // console.log(cartItems);
 
-    return res.send(cartItems);
+    return res.status(200).send(cartItems);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
@@ -38,7 +38,7 @@ router.delete("/:id", authenticate, async (req, res) => {
     // console.log("ram", id);
     // console.log(cartItems);
 
-    return res.send(cartItems);
+    return res.status(200).send(cartItems);
   } catch (err) {
     return res.status(500).send({ message: err.message });
   }
