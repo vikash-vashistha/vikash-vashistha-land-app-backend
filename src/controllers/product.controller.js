@@ -15,7 +15,7 @@ const router = express.Router();
 // getting cities
 router.get(
   "/locations",
-  rateLimiter({ secondWindow: 30, allowedHits: 5 }),
+  rateLimiter({ secondWindow: 30, allowedHits: 10 }),
   async (req, res) => {
     try {
       let Cities;
