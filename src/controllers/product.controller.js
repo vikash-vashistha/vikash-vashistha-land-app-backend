@@ -1,6 +1,6 @@
 const express = require("express");
 const authenticate = require("../middlewares/authenticate");
-
+const rateLimiter = require("../middlewares/rateLimiter");
 
 const Location = require("../models/location.model");
 
@@ -13,24 +13,28 @@ const router = express.Router();
 
 
 // getting cities
-router.get("/locations", async (req, res) => {
-  try {
-    let Cities;
-    let { city } = req.query;
-    // console.log(city);
-    if (city) {
-      Cities = await Location.find({ city: new RegExp(city, "i") })
-        .lean()
-        .exec();
-      // console.log(Cities, req.query.city);
-    } else {
-      Cities = await Location.find().lean().exec();
+router.get(
+  "/locations",
+  rateLimiter({ secondWindow: 30, allowedHits: 5 }),
+  async (req, res) => {
+    try {
+      let Cities;
+      let { city } = req.query;
+      // console.log(city);
+      if (city) {
+        Cities = await Location.find({ city: new RegExp(city, "i") })
+          .lean()
+          .exec();
+        // console.log(Cities, req.query.city);
+      } else {
+        Cities = await Location.find().lean().exec();
+      }
+      return res.status(200).send(Cities);
+    } catch (err) {
+      return res.status(404).send({ message: err.message });
     }
-    return res.status(200).send(Cities);
-  } catch (err) {
-    return res.status(404).send({ message: err.message });
   }
-});
+);
 
 router.get("/image", async (req, res) => {
   try {
