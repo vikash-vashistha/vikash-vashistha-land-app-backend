@@ -34,9 +34,9 @@ router.get("/:id", authenticate, async (req, res) => {
 router.delete("/:id", authenticate, async (req, res) => {
   try {
     const { id } = req.params;
+    console.log("ram", id);
     const cartItems = await Cart.deleteOne({id})
-    // console.log("ram", id);
-    // console.log(cartItems);
+    console.log(cartItems);
 
     return res.status(200).send(cartItems);
   } catch (err) {

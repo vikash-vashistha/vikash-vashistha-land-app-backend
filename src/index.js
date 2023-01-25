@@ -10,13 +10,14 @@ const passport = require('./configs/google.oatuh');
 // const userController = require('./controllers/user.controller');
 const productController = require('./controllers/product.controller');
 const { register, login, newToken } = require('./controllers/auth.controller');
-const transactionRouter = require('./controllers/transaction.controller');
+const transactionController = require('./controllers/transaction.controller');
 const schemeController = require('./controllers/scheme.controller')
 const landController = require('./controllers/land.controller')
 const userController = require('./controllers/user.controller')
 const cartController = require('./controllers/cart.controller')
 const chatController = require('./controllers/chat.controller')
 const requestController = require('./controllers/request.controller')
+const urlController = require('./controllers/url.controller')
 
 const app = express();
 
@@ -37,7 +38,9 @@ app.use('/cart', cartController);
 app.use('/chat', chatController);
 app.use('/request', requestController);
 //transaction
-app.use('/transaction', transactionRouter);
+app.use("/transaction", transactionController);
+// url shortner
+app.use('url', urlController);
 
 app.get(
   '/auth/google',
